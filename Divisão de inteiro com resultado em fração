@@ -1,0 +1,23 @@
+import java.util.Scanner;
+public class Principal {
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		
+		int divisor, dividendo, resto, quociente;
+				
+		System.out.println("digite o valor inteiro que será dividido: ");
+		dividendo = input.nextInt();
+		
+		System.out.println("digite o divisor inteiro diferente de zero: ");
+		divisor = input.nextInt();
+		
+		quociente = dividendo/divisor;
+		resto = dividendo%divisor;
+		
+		if(resto == 0) {
+			System.out.println("A divisão de "+dividendo+" por "+divisor+ " é: "+quociente);
+		}else {
+			System.out.println("A divisão de "+dividendo+" por "+divisor+ " é: "+quociente+" "+resto+"/"+divisor);
+		}
+	}
+}
