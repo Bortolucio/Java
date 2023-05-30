@@ -1,0 +1,15 @@
+import java.util.Scanner;
+public class Principal {
+	public static void main(String[] args) {
+		int contador;
+		Scanner input = new Scanner(System.in);
+		System.out.println("Digite um valor contador de loop: ");
+		contador = input.nextInt();
+		System.out.println("Antes do Loop");
+		while(contador < 5) {// o loop só executa se for true a cond.
+			System.out.println("Dentro do loop - Contador = "+contador);
+			contador++;
+		}
+		System.out.println("Depois do Loop While");
+	}
+}
