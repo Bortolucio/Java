@@ -3,7 +3,7 @@ public class Array {
 		
 		int[] nota = {9,10,8};
 		
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < nota.lenght; i++) { //o .length percorre até o tamanho do vetor
 		System.out.println(nota[i]);
 		}
 	}
