@@ -1,0 +1,166 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+
+public class TicTacToe {
+	
+	static ArrayList<Integer>playerPostions = new ArrayList<Integer>(); //importar java.util.ArrayList
+	static ArrayList<Integer>cpuPostions = new ArrayList<Integer>();
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		//inicio do desenho do # tabuleiro 
+		char[][] gameBoard = {
+			    {' ', '|', ' ', '|', ' '},
+				{'-', '+', '-', '+', '-'},
+				{' ', '|', ' ', '|', ' '},
+				{'-', '+', '-', '+', '-'},
+				{' ', '|', ' ', '|', ' '},
+				};
+		printGameboard(gameBoard);
+		
+		//fim do desenho do # tabuleiro
+		
+		//inicio do código para inserir as peças no tabuleiro
+		 //precisa importar java.util.Scanner
+		
+		//loop para poder inserir novas jogadas
+		while(true){
+			
+			Scanner scan = new Scanner(System.in);
+			System.out.println("Enter your placement (1-9): ");
+			
+			//1,2,3 primeira linha; 5 é o centro e 9 é canto inferior direito
+			int playerPos = scan.nextInt();
+			
+			//para não subscrever a posição já ocupada do player
+			while(playerPostions.contains(playerPos) || cpuPostions.contains(playerPostions)) {
+				System.out.println("Position taken! Enter a correct Position");
+				playerPos = scan.nextInt();
+			}
+
+			placePiece(gameBoard, playerPos, "player"); 
+			
+			String result = chechWinner(); //CHEGAR RESULTADO PARA ENCERRAR O LOOP DA CPU
+			if(result.length() > 0) {
+				System.out.println(result);
+				break;
+			}
+			
+			//usando random para inserir a jogada da cpu
+			Random rand = new Random(); //importar biblioteca java.util.Random
+			int cpuPos = rand.nextInt(9) + 1; // random da posição zero para 8 (9) + 1 para corrigir a a posição
+			
+			//para não subscrever a posição já ocupada da cpu 
+			//precisa fechar o loop para depois de preencher todos os campos. 
+			
+			while(playerPostions.contains(cpuPos) || cpuPostions.contains(cpuPos)) {
+				System.out.println("Position taken! Enter a correct Position");
+				cpuPos = rand.nextInt(9) + 1;
+			}
+			
+			placePiece(gameBoard, cpuPos, "cpu");
+			printGameboard(gameBoard);
+			
+			result = chechWinner();
+			if(result.length() > 0) {
+				System.out.println(result);
+				break;
+			}
+			System.out.println(result);
+		}			
+	}
+	//método para desenhar o tabuleiro
+	public static void printGameboard(char[][] gameBoard) {
+		for(char[] row : gameBoard) {
+			for(char c : row) {
+				System.out.print(c);
+			}
+			System.out.println();
+		}	
+	} //fim do método para desenhar o tabuleiro
+	
+	//método para inserir o 'X' no tabuleior
+	public static void placePiece(char[][] gameBoard, int pos, String user) {
+		//switch case para inserir 'X' ou 'O' na posição correta
+		//tem posições que é apenas o desenho do tabuleiro e precisa pular essas posições
+		
+		char symbol = ' ';
+		
+		if(user.equals("player")) {
+			symbol = 'X';
+			playerPostions.add(pos);
+		}else if(user.equals("cpu")) {
+			symbol = 'O';
+			cpuPostions.add(pos);
+		}
+		
+		switch(pos) {
+			case 1:
+				gameBoard[0][0] = symbol;
+				break;
+			case 2:
+				gameBoard[0][2] = symbol;
+				break;
+			case 3:
+				gameBoard[0][4] = symbol;
+				break;
+			case 4:
+				gameBoard[2][0] = symbol;
+				break;
+			case 5:
+				gameBoard[2][2] = symbol;
+				break;
+			case 6:
+				gameBoard[2][4] = symbol;
+				break;
+			case 7:
+				gameBoard[4][0] = symbol;
+				break;
+			case 8:
+				gameBoard[4][2] = symbol;
+				break;
+			case 9:
+				gameBoard[4][4] = symbol;
+				break;
+			default:
+				break;
+		}
+	}
+	
+	//verificação das posições já preenchidas.
+	public static String chechWinner() {
+		
+		List topRow = Arrays.asList(1, 2, 3);
+		List midRow = Arrays.asList(4, 5, 6);
+		List botRow = Arrays.asList(7, 8, 9);
+		List lefCol = Arrays.asList(1, 4, 7);
+		List midCol = Arrays.asList(2, 5, 8);
+		List rigCol = Arrays.asList(3, 6, 9);
+		List cross1 = Arrays.asList(1, 5, 9);
+		List cross2 = Arrays.asList(3, 5, 7);
+		
+		List<List> winning = new ArrayList<List>();
+		winning.add(topRow);
+		winning.add(midRow);
+		winning.add(botRow);
+		winning.add(lefCol);
+		winning.add(midCol);
+		winning.add(rigCol);
+		winning.add(cross1);
+		winning.add(cross2);
+		
+		for(List l : winning) {
+			if(playerPostions.containsAll(l)) {
+				return "Congratulations you won!";
+			}else if(cpuPostions.containsAll(l)) {
+				return "CPU wins! Sorry:(";
+			}else if(playerPostions.size() + cpuPostions.size() == 9) {
+				return "CAT";
+			}
+		}		
+		return "";	
+	}
+}
